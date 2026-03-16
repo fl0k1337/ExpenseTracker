@@ -1,0 +1,70 @@
+package com.example.expensetracker;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseHolder> {
+    private List<Expense> expenses = new ArrayList<>();
+
+    @NonNull
+    @Override
+    public ExpenseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expense_item, parent, false);
+        return new ExpenseHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ExpenseHolder holder, int position) {
+        Expense current = expenses.get(position);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+        String dateString = sdf.format(new Date(current.date));
+
+        holder.tvTitle.setText(current.title);
+        holder.tvCategory.setText(current.category + " • " + dateString);
+        holder.tvAmount.setText(current.amount + " ₽");
+        holder.tvDescription.setText(current.description);
+        if (current.description == null || current.description.isEmpty()) {
+            holder.tvDescription.setVisibility(View.GONE);
+        } else {
+            holder.tvDescription.setVisibility(View.VISIBLE);
+        }
+
+        if (current.category.equals("Еда")) {
+            holder.tvAmount.setTextColor(android.graphics.Color.parseColor("#FF9800")); // Оранжевый
+        } else if (current.category.equals("Транспорт")) {
+            holder.tvAmount.setTextColor(android.graphics.Color.parseColor("#2196F3")); // Синий
+        } else {
+            holder.tvAmount.setTextColor(android.graphics.Color.parseColor("#E91E63")); // Розовый
+        }
+    }
+
+    @Override
+    public int getItemCount() { return expenses.size(); }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+        notifyDataSetChanged();
+    }
+
+    public Expense getExpenseAt(int position) { return expenses.get(position); }
+
+    class ExpenseHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle, tvCategory, tvAmount, tvDescription;
+        public ExpenseHolder(View itemView) {
+            super(itemView);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvCategory = itemView.findViewById(R.id.tvCategory);
+            tvAmount = itemView.findViewById(R.id.tvAmount);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+        }
+    }
+}
