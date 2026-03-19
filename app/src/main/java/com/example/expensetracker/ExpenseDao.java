@@ -20,4 +20,7 @@ public interface ExpenseDao {
 
     @Query("SELECT * FROM expenses WHERE title LIKE :query OR category LIKE :query ORDER BY date DESC")
     LiveData<List<Expense>> searchExpenses(String query);
+
+    @Query("SELECT * FROM expenses WHERE date >= :startDate ORDER BY date DESC")
+    LiveData<List<Expense>> getExpensesFromDate(long startDate);
 }
