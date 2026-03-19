@@ -109,10 +109,6 @@ public class StatsFragment extends Fragment {
         pieChart.setTransparentCircleColor(Color.TRANSPARENT);
         pieChart.setHoleRadius(40f);
         pieChart.setTransparentCircleRadius(45f);
-//        pieChart.setDrawCenterText(true);
-//        pieChart.setCenterText("Всего\n" + String.format("%.0f ₽", total));
-//        pieChart.setCenterTextSize(14f);
-//        pieChart.setCenterTextColor(Color.WHITE);
         pieChart.setEntryLabelColor(Color.WHITE);
         pieChart.setEntryLabelTextSize(12f);
 
