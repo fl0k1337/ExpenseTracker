@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.fabAdd).setOnClickListener(v -> {
-            AddExpenseSheet sheet = new AddExpenseSheet((title, amount, category, description) -> {
+            AddExpenseSheet sheet = new AddExpenseSheet();
+            sheet.setListener((title, amount, category, description) -> {
                 viewModel.insert(new Expense(title, amount, category, description, System.currentTimeMillis()));
             });
             sheet.show(getSupportFragmentManager(), "add_expense");

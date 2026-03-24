@@ -5,40 +5,52 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class AddExpenseSheet extends BottomSheetDialogFragment {
+
     public interface OnExpenseAddedListener {
         void onAdded(String title, double amount, String category, String description);
     }
 
     private OnExpenseAddedListener listener;
+    private Expense existingExpense;
 
-    public AddExpenseSheet(OnExpenseAddedListener listener) {
-        this.listener = listener;
-    }
+    // Пустой конструктор (нужен для Android)
+    public AddExpenseSheet() {}
+
+    // Сеттеры вместо конструкторов с параметрами
+    public void setListener(OnExpenseAddedListener listener) { this.listener = listener; }
+    public void setExistingExpense(Expense expense) { this.existingExpense = expense; }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.sheet_add_expense, container, false);
 
-        // ОБЪЯВЛЯЕМ ВСЕ ПОЛЯ
         TextInputEditText etTitle = v.findViewById(R.id.etTitle);
         TextInputEditText etAmount = v.findViewById(R.id.etAmount);
-        TextInputEditText etDescription = v.findViewById(R.id.etDescription); // ДОБАВИЛИ ЭТУ СТРОКУ
+        TextInputEditText etDescription = v.findViewById(R.id.etDescription);
         ChipGroup chipGroup = v.findViewById(R.id.categoryChips);
+        MaterialButton btnSave = v.findViewById(R.id.btnSave);
 
-        v.findViewById(R.id.btnSave).setOnClickListener(view -> {
+        if (existingExpense != null) {
+            etTitle.setText(existingExpense.title);
+            etAmount.setText(String.valueOf(existingExpense.amount));
+            etDescription.setText(existingExpense.description);
+            btnSave.setText("Обновить");
+        }
+
+        btnSave.setOnClickListener(view -> {
             String title = etTitle.getText().toString().trim();
             String amountStr = etAmount.getText().toString().trim();
-            String desc = etDescription.getText().toString().trim(); // И ЭТУ
+            String desc = etDescription.getText().toString().trim();
 
             if (title.isEmpty() || amountStr.isEmpty()) {
-                Toast.makeText(getContext(), "Заполни название и сумму!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Заполни поля!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -47,18 +59,12 @@ public class AddExpenseSheet extends BottomSheetDialogFragment {
                 int chipId = chipGroup.getCheckedChipId();
                 String category = (chipId != -1) ? ((Chip) v.findViewById(chipId)).getText().toString() : "Прочее";
 
-                // Передаем 4 параметра, как просит новый интерфейс
-                listener.onAdded(title, amount, category, desc);
+                if (listener != null) listener.onAdded(title, amount, category, desc);
                 dismiss();
-            } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Введи корректную сумму!", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Ошибка ввода!", Toast.LENGTH_SHORT).show();
             }
         });
-        etTitle.postDelayed(() -> {
-            etTitle.requestFocus();
-            android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getContext().getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
-            if (imm != null) imm.showSoftInput(etTitle, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT);
-        }, 200);
         return v;
     }
 }

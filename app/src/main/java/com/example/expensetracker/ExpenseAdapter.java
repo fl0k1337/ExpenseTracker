@@ -22,6 +22,15 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseH
         return new ExpenseHolder(view);
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(Expense expense);
+    }
+    private OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ExpenseHolder holder, int position) {
         Expense current = expenses.get(position);
@@ -38,13 +47,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseH
             holder.tvDescription.setVisibility(View.VISIBLE);
         }
 
-        if (current.category.equals("Еда")) {
-            holder.tvAmount.setTextColor(android.graphics.Color.parseColor("#FF9800")); // Оранжевый
-        } else if (current.category.equals("Транспорт")) {
-            holder.tvAmount.setTextColor(android.graphics.Color.parseColor("#2196F3")); // Синий
-        } else {
-            holder.tvAmount.setTextColor(android.graphics.Color.parseColor("#E91E63")); // Розовый
-        }
+        holder.tvAmount.setTextColor(CategoryColorMapper.getColor(current.category));
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onItemClick(current);
+        });
     }
 
     @Override

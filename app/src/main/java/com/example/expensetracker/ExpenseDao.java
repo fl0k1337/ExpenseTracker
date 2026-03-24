@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 import java.util.List;
 
 @Dao
@@ -15,6 +16,9 @@ public interface ExpenseDao {
     @Delete
     void delete(Expense expense);
 
+    @Update
+    void update(Expense expense);
+
     @Query("SELECT * FROM expenses ORDER BY date DESC")
     LiveData<List<Expense>> getAllExpenses();
 
@@ -23,4 +27,5 @@ public interface ExpenseDao {
 
     @Query("SELECT * FROM expenses WHERE date >= :startDate ORDER BY date DESC")
     LiveData<List<Expense>> getExpensesFromDate(long startDate);
+
 }

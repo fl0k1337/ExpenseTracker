@@ -71,4 +71,8 @@ public class ExpenseViewModel extends AndroidViewModel {
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTimeInMillis();
     }
+
+    public void update(Expense expense) {
+        AppDatabase.databaseWriteExecutor.execute(() -> mDao.update(expense));
+    }
 }

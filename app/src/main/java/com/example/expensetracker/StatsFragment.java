@@ -124,7 +124,6 @@ public class StatsFragment extends Fragment {
         pieChart.animateY(1000);
         pieChart.invalidate();
 
-        // Заполняем список категорий под диаграммой
         categoriesContainer.removeAllViews();
         for (Map.Entry<String, Double> entry : categorySum.entrySet()) {
             View item = getLayoutInflater().inflate(R.layout.item_category_stat, categoriesContainer, false);
@@ -134,12 +133,17 @@ public class StatsFragment extends Fragment {
 
             tvCategory.setText(entry.getKey());
             tvAmount.setText(String.format("%.2f ₽ (%.1f%%)", entry.getValue(), (entry.getValue() / total) * 100));
-            // Устанавливаем цвет точки, соответствующий цвету на диаграмме (можно придумать логику или использовать индексы)
-            // Для простоты используем случайный цвет из набора
             colorDot.setBackgroundColor(getColorForCategory(entry.getKey()));
+            colorDot.setBackgroundColor(CategoryColorMapper.getColor(entry.getKey()));
 
             categoriesContainer.addView(item);
         }
+
+        List<Integer> colors = new ArrayList<>();
+        for (PieEntry entry : entries) {
+            colors.add(CategoryColorMapper.getColor(entry.getLabel()));
+        }
+        set.setColors(colors);
     }
 
     private int[] getColors(int count) {
