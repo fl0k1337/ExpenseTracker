@@ -28,4 +28,7 @@ public interface ExpenseDao {
     @Query("SELECT * FROM expenses WHERE date >= :startDate ORDER BY date DESC")
     LiveData<List<Expense>> getExpensesFromDate(long startDate);
 
+    @Query("SELECT * FROM expenses WHERE isRecurring = 1")
+    LiveData<List<Expense>> getRecurringExpenses();
+
 }

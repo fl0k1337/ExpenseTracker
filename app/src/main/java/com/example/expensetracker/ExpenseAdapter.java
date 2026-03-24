@@ -3,6 +3,7 @@ package com.example.expensetracker;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,12 +35,11 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseH
     @Override
     public void onBindViewHolder(@NonNull ExpenseHolder holder, int position) {
         Expense current = expenses.get(position);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
-        String dateString = sdf.format(new Date(current.date));
 
         holder.tvTitle.setText(current.title);
-        holder.tvCategory.setText(current.category + " • " + dateString);
         holder.tvAmount.setText(current.amount + " ₽");
+        holder.tvAmount.setTextColor(CategoryColorMapper.getColor(current.category));
+
         holder.tvDescription.setText(current.description);
         if (current.description == null || current.description.isEmpty()) {
             holder.tvDescription.setVisibility(View.GONE);
@@ -47,7 +47,17 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseH
             holder.tvDescription.setVisibility(View.VISIBLE);
         }
 
-        holder.tvAmount.setTextColor(CategoryColorMapper.getColor(current.category));
+        if (current.isRecurring) {
+            holder.tvCategory.setText(current.category + " • Ежемесячно");
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+            String dateString = sdf.format(new Date(current.date));
+            holder.tvCategory.setText(current.category + " • " + dateString);
+        }
+
+        holder.ivCategoryIcon.setImageResource(CategoryColorMapper.getIcon(current.category));
+        holder.ivCategoryIcon.setColorFilter(CategoryColorMapper.getColor(current.category));
+
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(current);
         });
@@ -65,12 +75,14 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseH
 
     class ExpenseHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvCategory, tvAmount, tvDescription;
+        ImageView ivCategoryIcon;
         public ExpenseHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvAmount = itemView.findViewById(R.id.tvAmount);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            ivCategoryIcon = itemView.findViewById(R.id.ivCategoryIcon);
         }
     }
 }

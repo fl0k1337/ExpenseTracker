@@ -35,15 +35,8 @@ public class MainActivity extends AppCompatActivity {
         nav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) loadFragment(new HomeFragment());
             else if (item.getItemId() == R.id.nav_stats) loadFragment(new StatsFragment());
+            else if (item.getItemId() == R.id.nav_planned) loadFragment(new PlannedFragment()); // Новая строка
             return true;
-        });
-
-        findViewById(R.id.fabAdd).setOnClickListener(v -> {
-            AddExpenseSheet sheet = new AddExpenseSheet();
-            sheet.setListener((title, amount, category, description) -> {
-                viewModel.insert(new Expense(title, amount, category, description, System.currentTimeMillis()));
-            });
-            sheet.show(getSupportFragmentManager(), "add_expense");
         });
     }
 
