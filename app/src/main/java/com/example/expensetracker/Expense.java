@@ -10,14 +10,17 @@ public class Expense {
     public String title;
     public double amount;
     public String category;
-    public String description; // НОВОЕ ПОЛЕ
+    public String description;
     public long date;
+    public boolean isRecurring; // ВОТ ЭТОГО ПОЛЯ У ТЕБЯ НЕ ХВАТАЛО
 
-    public Expense(String title, double amount, String category, String description, long date) {
+    // Обновленный конструктор
+    public Expense(String title, double amount, String category, String description, long date, boolean isRecurring) {
         this.title = title;
         this.amount = amount;
         this.category = category;
         this.description = description;
         this.date = date;
+        this.isRecurring = isRecurring;
     }
 }

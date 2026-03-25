@@ -8,4 +8,8 @@
         android:id="@+id/nav_stats"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="Статистика" />
+    <item
+        android:id="@+id/nav_planned"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="План" />
 </menu>

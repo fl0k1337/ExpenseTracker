@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,57 +7,24 @@
     android:padding="24dp"
     android:background="@drawable/rounded_sheet">
 
-    <View android:layout_width="40dp" android:layout_height="4dp"
-        android:layout_gravity="center" android:background="#E0E0E0"
-        android:layout_marginBottom="16dp" />
+    <View android:layout_width="40dp" android:layout_height="4dp" android:layout_gravity="center" android:background="#E0E0E0" android:layout_marginBottom="16dp" />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Новый расход" android:textSize="22sp" android:textStyle="bold"
-        android:textColor="?android:attr/textColorPrimary"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp">
+        <TextView android:id="@+id/sheetTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Новый расход" android:textSize="22sp" android:textStyle="bold" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnPickDateTop" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="48dp" android:layout_height="48dp" android:layout_alignParentEnd="true" app:icon="@android:drawable/ic_menu_my_calendar" />
+    </RelativeLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" android:hint="Название"
-        android:textColorHint="?android:attr/textColorSecondary">
-        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etTitle" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorPrimary"/>
-    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Название"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etTitle" android:layout_width="match_parent" android:layout_height="wrap_content" /></com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Сумма (₽)"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etAmount" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" /></com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="Комментарий"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etDescription" android:layout_width="match_parent" android:layout_height="wrap_content" /></com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" android:hint="Сумма (₽)">
-        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etAmount" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Категория" android:layout_marginTop="16dp" />
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:scrollbars="none"><com.google.android.material.chip.ChipGroup android:id="@+id/categoryChips" android:layout_width="wrap_content" android:layout_height="wrap_content" app:singleSelection="true">
+        <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Еда" />
+        <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Транспорт" />
+        <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Развлечения" />
+        <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Прочее" />
+    </com.google.android.material.chip.ChipGroup></HorizontalScrollView>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="Комментарий (необязательно)">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Категория" android:layout_marginTop="16dp"
-        android:textColor="?android:attr/textColorPrimary"/>
-
-    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:scrollbars="none">
-        <com.google.android.material.chip.ChipGroup android:id="@+id/categoryChips" android:layout_width="wrap_content" android:layout_height="wrap_content" app:singleSelection="true">
-            <com.google.android.material.chip.Chip android:id="@+id/chipFood" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Еда" />
-            <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Транспорт" />
-            <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Развлечения" />
-            <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Прочее" />
-        </com.google.android.material.chip.ChipGroup>
-    </HorizontalScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSave" android:layout_width="match_parent"
-        android:layout_height="60dp" android:layout_marginTop="24dp"
-        android:text="Добавить" app:cornerRadius="16dp" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="60dp" android:layout_marginTop="24dp" android:text="Сохранить" app:cornerRadius="16dp" />
 </LinearLayout>
